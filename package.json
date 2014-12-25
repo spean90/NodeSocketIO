@@ -1,0 +1,14 @@
+{
+  "name": "NodeSocketIO",
+  "version": "0.0.1",
+  "description": "a chat object by socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "node_socket.io"
+  ],
+  "author": "spean90",
+  "license": "ISC"
+}

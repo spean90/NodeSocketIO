@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+    <script>
+        var socket = io('http://localhost');
+        var name='';
+        socket.on('news', function (data) {
+            var str = data.name+data.msg+'<br/><br/>';
+            $('#content').append(str);
+            $("#mainPanel").scrollTop($("#content").height());
+        });
+        $(function(){
+            $('#send').click(function(){
+                var msg = $('#myMessage').val();
+                $('#myMessage').val('')
+                socket.emit('clientMsg', { name: name,msg:msg });
+
+            });
+        })
+        function strdown(event){
+            if(event.keyCode==13){
+                name = $('#name').val();
+                $('#firstPage').hide();
+                $('#secondPage').show();
+                var ind = Math.round(Math.random()*10);
+                switch (ind){
+                    case 0: name = '<span style="color: #0bc724;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 1: name = '<span style="color: mediumvioletred;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 2:name ='<span style="color: #18f3f6;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 3:name ='<span style="color: #c7c433;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 4:name ='<span style="color: #3e4bc7;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 5:name ='<span style="color: #c70000;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 6:name ='<span style="color: #5d5514;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 7:name ='<span style="color: #895273;font-size: 20px">'+name+' : </span>';
+                        break;
+                    case 8:name ='<span style="color: #fa2b6e;font-size: 20px">'+name+' : </span>';
+                        break;
+                    default :name = '<span style="color: #020202;font-size: 20px">'+name+' : </span>';
+                }
+                return false;
+            }
+        }
+        function strdown2(event){
+            if(event.keyCode==13){
+                var msg = $('#myMessage').val();
+                $('#myMessage').val('')
+                socket.emit('clientMsg', { name: name,msg:msg });
+                return false;
+            }
+        }
+    </script>
+    <title>Chat Room</title>
+</head>
+<body style="background-image: url('/image/bg1.jpg');" >
+    <div id="firstPage" style="margin: auto;margin-top: 300px;background-image: url('/image/bg1.jpg');width: 600px;height: 580px;text-align: center" onkeydown="strdown(event)">
+        <input type="text" id="name" placeholder="请输入名称" style="width: 600px;font-size: 50px; background-image: url('image/bg2.jpg')">
+    </div>
+    <div hidden="hidden" id="secondPage">
+        <div class="panel panel-default" id="mainPanel"  style="margin: auto;margin-top: 100px; background-image: url('image/bg2.jpg');width: 600px;height: 480px;overflow-y:auto">
+            <div class="panel-body" id="content">
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin: auto; background-image: url('image/bg2.jpg');width: 600px;" onkeydown="strdown2(event)">
+            <textarea rows="2" style="width: 590px" id="myMessage" ></textarea>
+            <button class="btn btn-success" id="send">发送</button>
+        </div>
+    </div>
+</body>
+</html>
