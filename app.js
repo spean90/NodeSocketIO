@@ -17,6 +17,13 @@ app.use(express.static(path.join(__dirname,'bower_components')));
 app.get('/',function(req,res) {
     res.render('index');
 })
+io.set('authorization',function(handShakeData,callback) {
+    var he = handShakeData.headers;
+    console.log(he);
+    var mycookie = handShakeData.headers.cookie;
+    console.log(mycookie);
+    callback(null,true);
+})
 io.on('connection',function(socket) {
 
     if(!underscore.contains(clientSockets,socket)){
@@ -30,6 +37,12 @@ io.on('connection',function(socket) {
         clientSockets.splice(i,1);
     });
 })
+//io.configure(function(){
+//    io.set('authorization',function(handShakeData,callback) {
+//        console.log(handShakeData);
+//        callback(null,true);
+//    })
+//})
 var flashMsg = function(data){
     for(var i in clientSockets){
 
